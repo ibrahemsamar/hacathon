@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  api:
+    build: ./api
+    environment:
+      - CONNECTION_STRING=MySQL://demo_user:demo_user@db/demo_db
+    depends_on:
+      - db
+    networks:
+      - front-network
+
+  webapp:
+    build: ./web
+    environment:
+      - API_URL=http://api:3001/data
+    depends_on:
+      - api
+    ports:
+      - "80:3000"
+    networks:
+      - network-web
+
+  db:
+    image: DATABASE_cont1:11.2-alpine
+    environment:
+      MySQL_USER: demo_user
+      MySQL_PASSWORD: MySQL_DB
+      MySQL_DB: demo_db
+    volumes:
+      - ./sql_scripts/:/docker-entrypoint-initdb.d
+    networks:
+      - front-network
+
+networks:
+  front-network:
