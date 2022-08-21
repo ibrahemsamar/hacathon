@@ -11,7 +11,7 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t samaribrahim/hacathon:latest .'
+				sh 'docker build -t "samaribrahim/hacathon:latest" .'
 			}
 		}
 
